@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react';
+// import { withRouter } from 'react-router-dom';
+import SignUpForm from '../SignUpForm/';
 
 const SignUpPage = () => (
   <div>
     <h1>Sign Up Page</h1>
+    <SignUpForm />
   </div>
 );
 
