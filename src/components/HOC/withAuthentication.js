@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { firebase } from '../firebase';
+import { firebase } from '../../firebase';
+import { setAuthUser } from '../../actions/session_actions';
 
 const withAuthentication = Component => {
   class WithAuthentication extends React.Component {
@@ -16,13 +17,7 @@ const withAuthentication = Component => {
     }
   }
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      setAuthUser: authUser => dispatch({ type: 'SET_AUTH_USER', authUser })
-    };
-  };
-
-  return connect(null, mapDispatchToProps)(WithAuthentication);
+  return connect(null, { setAuthUser })(WithAuthentication);
 };
 
 export default withAuthentication;

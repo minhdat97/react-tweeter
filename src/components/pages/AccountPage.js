@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import PasswordForgetForm from '../PasswordForgetForm';
 import PasswordChangeForm from '../PasswordChangeForm';
-import withAuthorization from '../withAuthorization';
+import withAuthorization from '../HOC/withAuthorization';
 
 const AccountPage = ({ authUser }) => (
   <div>
