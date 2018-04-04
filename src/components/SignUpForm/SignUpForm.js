@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { HOME } from '../../constants/routes';
 
 const INITIAL_STATE = {
@@ -27,8 +27,16 @@ class SignUpForm extends Component {
     auth
       .doSignUp(email, password)
       .then(authUser => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(HOME);
+        // Create a user in our db
+        db
+          .doCreateUser(authUser.id, username, password)
+          .then(() => {
+            this.setState(() => ({ ...INITIAL_STATE }));
+            history.push(HOME);
+          })
+          .catch(error => {
+            this.setState({ error });
+          });
       })
       .catch(error => {
         this.setState({ error });
