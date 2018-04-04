@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import SignOutButton from '../../SignOutButton';
+import { auth } from '../../../firebase';
 import * as routes from '../../../constants/routes';
 
 const Navigation = ({ authUser }) => (
@@ -12,16 +12,15 @@ const NavigationAuth = () => (
   <nav>
     <ul>
       <li>
-        <Link to={routes.LANDING}>Landing</Link>
-      </li>
-      <li>
         <Link to={routes.HOME}>Home</Link>
       </li>
       <li>
-        <Link to={routes.ACCOUNT}>Account</Link>
+        <Link to={routes.PROFILE}>Your Profile</Link>
       </li>
       <li>
-        <SignOutButton />
+        <button type="button" onClick={auth.doSignOut}>
+          Sign Out
+        </button>
       </li>
     </ul>
   </nav>
@@ -30,17 +29,17 @@ const NavigationAuth = () => (
 const NavigationNonAuth = () => (
   <ul>
     <li>
-      <Link to={routes.SIGN_IN}>Sign In</Link>
+      <Link to={routes.LOGIN}>Login</Link>
     </li>
     <li>
-      <Link to={routes.LANDING}>Landing</Link>
+      <Link to={routes.REGISTER}>Register</Link>
     </li>
   </ul>
 );
 
 const mapStateToProps = state => {
   return {
-    authUser: state.sessions.authUser
+    authUser: state.session.authUser
   };
 };
 

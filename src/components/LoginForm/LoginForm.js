@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-class SignInForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
@@ -55,7 +55,7 @@ class SignInForm extends Component {
           onChange={this.onInputChange}
         />
         <button type="submit" disabled={isInvalid}>
-          Sign In
+          Login
         </button>
 
         {error && <p>{error.message}</p>}
@@ -64,4 +64,4 @@ class SignInForm extends Component {
   }
 }
 
-export default withRouter(SignInForm);
+export default withRouter(LoginForm);

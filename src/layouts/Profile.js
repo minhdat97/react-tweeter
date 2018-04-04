@@ -1,21 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import PasswordForgetForm from '../PasswordForgetForm';
-import PasswordChangeForm from '../PasswordChangeForm';
-import withAuthorization from '../HOC/withAuthorization';
+import PasswordChangeForm from '../components/PasswordChangeForm';
+import withAuthorization from '../components/HOC/withAuthorization';
 
-const AccountPage = ({ authUser }) => (
+const Profile = ({ authUser }) => (
   <div>
-    <h1>Account: {authUser.email}</h1>
-    <PasswordForgetForm />
+    <h2>Hello {authUser.email}</h2>
+    <h3>Change Password</h3>
     <PasswordChangeForm />
   </div>
 );
 
 const mapStateToProps = state => {
   return {
-    authUser: state.sessions.authUser
+    authUser: state.session.authUser
   };
 };
 
@@ -24,4 +23,4 @@ const authCondition = authUser => !!authUser;
 export default compose(
   withAuthorization(authCondition),
   connect(mapStateToProps)
-)(AccountPage);
+)(Profile);

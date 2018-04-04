@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { auth, db } from '../../firebase';
-import { HOME } from '../../constants/routes';
+import * as routes from '../../constants/routes';
 
 const INITIAL_STATE = {
   username: '',
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-class SignUpForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
@@ -32,7 +32,7 @@ class SignUpForm extends Component {
           .doCreateUser(authUser.uid, username, password)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
-            history.push(HOME);
+            history.push(routes.HOME);
           })
           .catch(error => {
             this.setState({ error });
@@ -92,4 +92,4 @@ class SignUpForm extends Component {
   }
 }
 
-export default withRouter(SignUpForm);
+export default withRouter(RegisterForm);

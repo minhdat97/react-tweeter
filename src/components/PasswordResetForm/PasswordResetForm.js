@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-class PasswordForgetForm extends Component {
+class PasswordResetForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
@@ -52,4 +52,4 @@ class PasswordForgetForm extends Component {
   }
 }
 
-export default PasswordForgetForm;
+export default PasswordResetForm;
