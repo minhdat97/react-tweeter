@@ -29,7 +29,7 @@ class SignUpForm extends Component {
       .then(authUser => {
         // Create a user in our db
         db
-          .doCreateUser(authUser.id, username, password)
+          .doCreateUser(authUser.uid, username, password)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(HOME);
