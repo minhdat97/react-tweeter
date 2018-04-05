@@ -25,11 +25,11 @@ class RegisterForm extends Component {
     const { username, email, password } = this.state;
     const { history } = this.props;
     auth
-      .doSignUp(email, password)
+      .doRegister(email, password)
       .then(authUser => {
         // Create a user in our db
         db
-          .doCreateUser(authUser.uid, username, password)
+          .doCreateUser(authUser.uid, username, email)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
-import { auth } from '../../firebase';
-import { HOME } from '../../constants/routes';
+import { userLogin } from '../../actions/session_actions';
+import * as routes from '../../constants/routes';
 
 const INITIAL_STATE = {
   email: '',
-  password: '',
-  error: null
+  password: ''
 };
 
 class LoginForm extends Component {
@@ -15,27 +16,28 @@ class LoginForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { authUser, history } = nextProps;
+    if (authUser.isLoggedIn) {
+      this.setState({ ...INITIAL_STATE });
+      history.push(routes.HOME);
+    }
+  }
+
   onInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   onSubmit = event => {
     const { email, password } = this.state;
-    const { history } = this.props;
-    auth
-      .doSignIn(email, password)
-      .then(() => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(HOME);
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
+    const { userLogin } = this.props;
     event.preventDefault();
+    userLogin(email, password);
   };
 
   render() {
-    const { email, password, error } = this.state;
+    const { email, password } = this.state;
+    const { authUser } = this.props;
     const isInvalid = email === '' || password === '';
 
     return (
@@ -58,10 +60,18 @@ class LoginForm extends Component {
           Login
         </button>
 
-        {error && <p>{error.message}</p>}
+        {authUser.error && <p>{authUser.error}</p>}
       </form>
     );
   }
 }
 
-export default withRouter(LoginForm);
+const mapStateToProps = state => {
+  return {
+    authUser: state.session
+  };
+};
+
+export default compose(withRouter, connect(mapStateToProps, { userLogin }))(
+  LoginForm
+);

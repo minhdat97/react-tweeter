@@ -1,15 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { firebase } from '../../firebase';
-import { setAuthUser } from '../../actions/session_actions';
+import { getLoggedInUser } from '../../actions/session_actions';
 
 const withAuthentication = Component => {
   class WithAuthentication extends React.Component {
     componentDidMount() {
-      const { setAuthUser } = this.props;
-      firebase.auth.onAuthStateChanged(authUser => {
-        authUser ? setAuthUser(authUser) : setAuthUser(null);
+      const { getLoggedInUser } = this.props;
+      this.firebaseListener = firebase.auth.onAuthStateChanged(authUser => {
+        if (authUser) getLoggedInUser(authUser.uid);
       });
+    }
+
+    componentWillUnmount() {
+      this.firebaseListener && this.firebaseListener();
+      this.authListener = undefined;
     }
 
     render() {
@@ -17,7 +22,7 @@ const withAuthentication = Component => {
     }
   }
 
-  return connect(null, { setAuthUser })(WithAuthentication);
+  return connect(null, { getLoggedInUser })(WithAuthentication);
 };
 
 export default withAuthentication;

@@ -5,7 +5,7 @@ import RegisterForm from '../components/RegisterForm';
 import * as routes from '../constants/routes';
 
 const Home = ({ authUser }) => (
-  <div>{authUser ? <HomeAuth /> : <HomeNonAuth />}</div>
+  <div>{authUser.isLoggedIn ? <HomeAuth /> : <HomeNonAuth />}</div>
 );
 
 const HomeAuth = () => (
@@ -26,7 +26,7 @@ const HomeNonAuth = () => (
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session.authUser
+    authUser: state.session
   };
 };
 

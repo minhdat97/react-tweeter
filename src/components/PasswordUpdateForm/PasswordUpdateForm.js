@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-class PasswordChangeForm extends Component {
+class PasswordUpdateForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
@@ -51,7 +51,7 @@ class PasswordChangeForm extends Component {
           onChange={this.onInputChange}
         />
         <button type="submit" disabled={isInvalid}>
-          Reset My Password
+          Update My Password
         </button>
 
         {error && <p>{error.message}</p>}
@@ -60,4 +60,4 @@ class PasswordChangeForm extends Component {
   }
 }
 
-export default PasswordChangeForm;
+export default PasswordUpdateForm;

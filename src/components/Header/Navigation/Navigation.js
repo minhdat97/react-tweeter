@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { auth } from '../../../firebase';
+import LogoutButton from './LogoutButton';
 import * as routes from '../../../constants/routes';
 
 const Navigation = ({ authUser }) => (
-  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+  <div>{authUser.isLoggedIn ? <NavigationAuth /> : <NavigationNonAuth />}</div>
 );
 
 const NavigationAuth = () => (
@@ -18,9 +18,7 @@ const NavigationAuth = () => (
         <Link to={routes.PROFILE}>Your Profile</Link>
       </li>
       <li>
-        <button type="button" onClick={auth.doSignOut}>
-          Sign Out
-        </button>
+        <LogoutButton />
       </li>
     </ul>
   </nav>
@@ -39,7 +37,7 @@ const NavigationNonAuth = () => (
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session.authUser
+    authUser: state.session
   };
 };
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import PasswordChangeForm from '../components/PasswordChangeForm';
+import PasswordUpdateForm from '../components/PasswordUpdateForm';
 import withAuthorization from '../components/HOC/withAuthorization';
 
 const Profile = ({ authUser }) => (
   <div>
-    <h2>Hello {authUser.email}</h2>
-    <h3>Change Password</h3>
-    <PasswordChangeForm />
+    <h2>Hello {authUser.username}</h2>
+    <h3>Update Password</h3>
+    <PasswordUpdateForm />
   </div>
 );
 
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
   };
 };
 
-const authCondition = authUser => !!authUser;
+const authCondition = authUser => authUser.isLoggedIn;
 
 export default compose(
   withAuthorization(authCondition),
