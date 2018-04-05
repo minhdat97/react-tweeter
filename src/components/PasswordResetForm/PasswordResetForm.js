@@ -3,7 +3,7 @@ import { auth } from '../../firebase';
 
 const INITIAL_STATE = {
   email: '',
-  error: null
+  status: null
 };
 
 class PasswordResetForm extends Component {
@@ -21,16 +21,19 @@ class PasswordResetForm extends Component {
     auth
       .doPasswordReset(email)
       .then(() => {
-        this.setState(() => ({ ...INITIAL_STATE }));
+        this.setState(() => ({
+          email: '',
+          status: `A password reset email has been sent to ${email}.`
+        }));
       })
       .catch(error => {
-        this.setState({ error });
+        this.setState({ status: 'That email does not exist.' });
       });
     event.preventDefault();
   };
 
   render() {
-    const { email, error } = this.state;
+    const { email, status } = this.state;
     const isInvalid = email === '';
 
     return (
@@ -46,7 +49,7 @@ class PasswordResetForm extends Component {
           Reset My Password
         </button>
 
-        {error && <p>{error.message}</p>}
+        {status && <p>{status}</p>}
       </form>
     );
   }
