@@ -4,7 +4,7 @@ import { auth } from '../../firebase';
 const INITIAL_STATE = {
   password: '',
   confirmPassword: '',
-  error: null
+  status: null
 };
 
 class PasswordUpdateForm extends Component {
@@ -22,16 +22,19 @@ class PasswordUpdateForm extends Component {
     auth
       .doPasswordUpdate(password)
       .then(() => {
-        this.setState(() => ({ ...INITIAL_STATE }));
+        this.setState(() => ({
+          ...INITIAL_STATE,
+          status: 'Password has successfully been updated.'
+        }));
       })
       .catch(error => {
-        this.setState({ error });
+        this.setState({ status: error.message });
       });
     event.preventDefault();
   };
 
   render() {
-    const { password, confirmPassword, error } = this.state;
+    const { password, confirmPassword, status } = this.state;
     const isInvalid = password === '' || password !== confirmPassword;
 
     return (
@@ -51,10 +54,10 @@ class PasswordUpdateForm extends Component {
           onChange={this.onInputChange}
         />
         <button type="submit" disabled={isInvalid}>
-          Update My Password
+          Update
         </button>
 
-        {error && <p>{error.message}</p>}
+        {status && <p>{status}</p>}
       </form>
     );
   }
