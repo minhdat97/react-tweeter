@@ -12,10 +12,10 @@ const withAuthentication = Component => {
       });
     }
 
-    componentWillUnmount() {
-      this.firebaseListener && this.firebaseListener();
-      this.authListener = undefined;
-    }
+    // componentWillUnmount() {
+    //   this.firebaseListener && this.firebaseListener();
+    //   this.authListener = undefined;
+    // }
 
     render() {
       return <Component />;
