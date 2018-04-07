@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import RegisterForm from '../components/RegisterForm';
 import * as routes from '../constants/routes';
 
-const Home = ({ authUser }) => (
-  <div>{authUser.isLoggedIn ? <HomeAuth /> : <HomeNonAuth />}</div>
+const Home = ({ authenticated }) => (
+  <div>{authenticated ? <HomeAuth /> : <HomeNonAuth />}</div>
 );
 
 const HomeAuth = () => (
@@ -26,7 +26,7 @@ const HomeNonAuth = () => (
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session
+    authenticated: state.auth.authenticated
   };
 };
 

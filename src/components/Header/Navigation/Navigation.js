@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../../LogoutButton';
 import * as routes from '../../../constants/routes';
 
-const Navigation = ({ authUser }) => (
-  <div>{authUser.isLoggedIn ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+const Navigation = ({ authenticated }) => (
+  <div>{authenticated ? <NavigationAuth /> : <NavigationNonAuth />}</div>
 );
 
 const NavigationAuth = () => (
@@ -37,7 +37,7 @@ const NavigationNonAuth = () => (
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session
+    authenticated: state.auth.authenticated
   };
 };
 

@@ -6,28 +6,28 @@ import { firebase } from '../../firebase';
 import * as routes from '../../constants/routes';
 
 const withAuthorization = authCondition => Component => {
-  class WithAuthorization extends React.Component {
-    componentDidMount() {
-      const { authUser } = this.props;
-      firebase.auth.onAuthStateChanged(() => {
-        if (!authCondition(authUser)) {
-          this.props.history.push(routes.LOGIN);
+  class Authorization extends React.Component {
+    componentWillMount() {
+      const { auth } = this.props;
+      firebase.auth.onAuthStateChanged(authUser => {
+        if (!authUser || !authCondition(auth)) {
+          this.props.history.push(routes.HOME);
         }
       });
     }
 
     render() {
-      return this.props.authUser.isLoggedIn ? <Component /> : null;
+      return this.props.auth.authenticated ? <Component /> : null;
     }
   }
 
   const mapStateToProps = state => {
     return {
-      authUser: state.session
+      auth: state.auth
     };
   };
 
-  return compose(withRouter, connect(mapStateToProps))(WithAuthorization);
+  return compose(withRouter, connect(mapStateToProps))(Authorization);
 };
 
 export default withAuthorization;

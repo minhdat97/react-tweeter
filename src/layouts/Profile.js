@@ -14,11 +14,11 @@ const Profile = ({ authUser }) => (
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session.authUser
+    authUser: state.auth.user
   };
 };
 
-const authCondition = authUser => authUser.isLoggedIn;
+const authCondition = auth => auth.authenticated;
 
 export default compose(
   withAuthorization(authCondition),

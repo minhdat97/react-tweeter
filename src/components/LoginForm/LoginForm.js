@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
-import { userLogin } from '../../actions/session_actions';
+import { userLogin } from '../../actions/auth_actions';
 import * as routes from '../../constants/routes';
 
 const INITIAL_STATE = {
@@ -16,9 +16,9 @@ class LoginForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { authUser, history } = nextProps;
-    if (authUser.isLoggedIn) {
+  componentDidMount() {
+    const { authenticated, history } = this.props;
+    if (authenticated) {
       this.setState({ ...INITIAL_STATE });
       history.push(routes.HOME);
     }
@@ -37,7 +37,7 @@ class LoginForm extends Component {
 
   render() {
     const { email, password } = this.state;
-    const { authUser } = this.props;
+    const { error } = this.props;
     const isInvalid = email === '' || password === '';
 
     return (
@@ -60,7 +60,7 @@ class LoginForm extends Component {
           Login
         </button>
 
-        {authUser.error && <p>{authUser.error}</p>}
+        {error && <p>{error}</p>}
       </form>
     );
   }
@@ -68,7 +68,8 @@ class LoginForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    authUser: state.session
+    authenticated: state.auth.authenticated,
+    error: state.auth.error
   };
 };
 

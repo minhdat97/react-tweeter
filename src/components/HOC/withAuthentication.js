@@ -1,28 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { firebase } from '../../firebase';
-import { getLoggedInUser } from '../../actions/session_actions';
+import { AUTH } from './../../constants/actions';
+import { getLoggedInUser } from '../../actions/auth_actions';
 
 const withAuthentication = Component => {
-  class WithAuthentication extends React.Component {
-    componentDidMount() {
-      const { getLoggedInUser } = this.props;
+  class Authentication extends React.Component {
+    componentWillMount() {
+      const { authFailed, getLoggedInUser } = this.props;
       this.firebaseListener = firebase.auth.onAuthStateChanged(authUser => {
-        if (authUser) getLoggedInUser(authUser.uid);
+        authUser ? getLoggedInUser(authUser.uid) : authFailed();
       });
     }
 
-    // componentWillUnmount() {
-    //   this.firebaseListener && this.firebaseListener();
-    //   this.authListener = undefined;
-    // }
-
     render() {
-      return <Component />;
+      return this.props.authPending ? <div>Loading...</div> : <Component />;
     }
   }
 
-  return connect(null, { getLoggedInUser })(WithAuthentication);
+  const mapStateToProps = state => {
+    return {
+      authPending: state.auth.authPending
+    };
+  };
+
+  const mapDispatchToProps = dispatch => {
+    return {
+      authFailed: status =>
+        dispatch({ type: AUTH.LOGIN.FAILURE, payload: null }),
+      getLoggedInUser: id => dispatch(getLoggedInUser(id))
+    };
+  };
+
+  return connect(mapStateToProps, mapDispatchToProps)(Authentication);
 };
 
 export default withAuthentication;

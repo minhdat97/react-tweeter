@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { auth, db } from '../../firebase';
+import { userRegister } from '../../actions/auth_actions';
 import * as routes from '../../constants/routes';
 
 const INITIAL_STATE = {
   username: '',
   email: '',
   password: '',
-  confirmPassword: '',
-  error: null
+  confirmPassword: ''
 };
 
 class RegisterForm extends Component {
@@ -17,35 +18,28 @@ class RegisterForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  componentDidMount() {
+    const { authenticated, history } = this.props;
+    if (authenticated) {
+      this.setState({ ...INITIAL_STATE });
+      history.push(routes.HOME);
+    }
+  }
+
   onInputChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   onSubmit = event => {
     const { username, email, password } = this.state;
-    const { history } = this.props;
-    auth
-      .doRegister(email, password)
-      .then(authUser => {
-        // Create a user in our db
-        db
-          .doCreateUser(authUser.uid, username, email)
-          .then(() => {
-            this.setState(() => ({ ...INITIAL_STATE }));
-            history.push(routes.HOME);
-          })
-          .catch(error => {
-            this.setState({ error });
-          });
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
+    this.props.userRegister(username, email, password);
+    this.setState(() => ({ ...INITIAL_STATE }));
     event.preventDefault();
   };
 
   render() {
-    const { username, email, password, confirmPassword, error } = this.state;
+    const { username, email, password, confirmPassword } = this.state;
+    const { error } = this.props;
     const isInvalid =
       username === '' ||
       email === '' ||
@@ -86,10 +80,19 @@ class RegisterForm extends Component {
           Sign Up
         </button>
 
-        {error && <p>{error.message}</p>}
+        {error && <p>{error}</p>}
       </form>
     );
   }
 }
 
-export default withRouter(RegisterForm);
+const mapStateToProps = state => {
+  return {
+    authenticated: state.auth.authenticated,
+    error: state.auth.error
+  };
+};
+
+export default compose(withRouter, connect(mapStateToProps, { userRegister }))(
+  RegisterForm
+);
