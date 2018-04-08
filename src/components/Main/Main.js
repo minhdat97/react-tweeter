@@ -1,19 +1,18 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import Home from '../../layouts/Home';
-import Login from '../../layouts/Login';
-import Register from '../../layouts/Register';
-import PasswordReset from '../../layouts/PasswordReset';
-import Profile from '../../layouts/Profile';
+import { Switch, Route } from 'react-router-dom';
+import * as layouts from '../../layouts';
 import * as routes from '../../constants/routes';
 
 const Main = () => (
   <main>
-    <Route exact path={routes.HOME} component={Home} />
-    <Route exact path={routes.LOGIN} component={Login} />
-    <Route exact path={routes.REGISTER} component={Register} />
-    <Route exact path={routes.PASSWORD_RESET} component={PasswordReset} />
-    <Route exact path={routes.PROFILE} component={Profile} />
+    <Switch>
+      <Route exact path={routes.HOME} component={layouts.Home} />
+      <Route path={routes.LOGIN} component={layouts.Login} />
+      <Route path={routes.REGISTER} component={layouts.Register} />
+      <Route path={routes.PASSWORD_RESET} component={layouts.PasswordReset} />
+      <Route path={routes.PROFILE} component={layouts.Profile} />
+      <Route component={layouts.NotFound} />
+    </Switch>
   </main>
 );
 
