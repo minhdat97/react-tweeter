@@ -7,18 +7,9 @@ import { AUTH } from './constants/actions';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-// Auth user before app render
-// const token = localStorage.getItem('authToken');
-// if (token) {
-//   // firebase.auth.onAuthStateChanged(authUser => {
-//   // if (authUser && authUser.uid === token)
-//   store.dispatch({ type: AUTH.LOGIN.SUCCESS });
-//   // });
-//   firebase.auth.onAuthStateChanged(user => console.log('test'));
-// }
-
-// Check for auth before app render
-store.dispatch({ type: AUTH.LOGIN.PENDING, payload: true });
+// Check for auth token in local storage before setting pending auth state
+const token = localStorage.getItem('authToken');
+if (token) store.dispatch({ type: AUTH.LOGIN.PENDING, payload: true });
 
 ReactDOM.render(
   <Provider store={store}>
