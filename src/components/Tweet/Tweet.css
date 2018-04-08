@@ -1,0 +1,9 @@
+.tweet-box {
+  width: 400px;
+  border: 1px solid black;
+  padding: 5px;
+  resize: none;
+  /* min-height: 100px; */
+  font-size: 1rem;
+  height: 20px;
+}

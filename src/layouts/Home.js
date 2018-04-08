@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Tweet from '../components/Tweet';
 import RegisterForm from '../components/RegisterForm';
 import * as routes from '../constants/routes';
 
@@ -11,6 +12,7 @@ const Home = ({ authenticated }) => (
 const HomeAuth = () => (
   <div>
     <p>You are logged in. This is your tweeter feed.</p>
+    <Tweet />
   </div>
 );
 
