@@ -6,3 +6,11 @@ export const AUTH = {
   },
   LOGOUT: 'AUTH_LOGOUT'
 };
+
+export const TWEET = {
+  POST: {
+    PENDING: 'TWEET_POST_PENDING',
+    SUCCESS: 'TWEET_POST_SUCCESS',
+    FAILURE: 'TWEET_POST_FAILURE'
+  }
+};

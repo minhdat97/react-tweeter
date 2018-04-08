@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import autosize from 'autosize';
 import './Tweet.css';
+import { db } from '../../firebase';
 
 const CHAR_LIMIT = 140;
 
@@ -18,7 +20,6 @@ class Tweet extends Component {
   }
 
   autoResizeHeight = () => {
-
     let height = Number(this.tweetbox.style.height.replace('px', ''));
     if (height === 0) {
       height = this.tweetbox.scrollHeight;
@@ -31,13 +32,18 @@ class Tweet extends Component {
   handleInputChange = event => {
     event.preventDefault();
     this.autoResizeHeight();
-   let tweetboxValue = this.tweetbox.value;
+    let tweetboxValue = this.tweetbox.value;
     if (tweetboxValue.match(/\s\s/) || tweetboxValue.match(/\n/)) {
       this.tweetbox.value = tweetboxValue.slice(0, -1);
     }
     const length = this.tweetbox.value.length;
     if (length > CHAR_LIMIT) return;
     this.setState({ tweet: this.tweetbox.value, length });
+  };
+
+  submitData = () => {
+    console.log('TEST');
+    db.doPostTweet(this.props.authUserId, this.state.tweet);
   };
 
   render() {
@@ -50,11 +56,19 @@ class Tweet extends Component {
           onChange={this.handleInputChange}
           value={this.state.tweet}
         />
-        <button type="submit">Tweet</button>
+        <button type="submit" onClick={this.submitData}>
+          Tweet
+        </button>
         <span>Length: {this.state.length}</span>
       </div>
     );
   }
 }
 
-export default Tweet;
+const mapStateToProps = state => {
+  return {
+    authUserId: state.auth.user.id
+  };
+};
+
+export default connect(mapStateToProps)(Tweet);
