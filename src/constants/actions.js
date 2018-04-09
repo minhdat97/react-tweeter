@@ -17,10 +17,15 @@ export const TWEET = {
 
 export const USER = {
   FEED: {
-    // POST: {
-      PENDING: 'USER_FEED_PENDING',
-      SUCCESS: 'USER_FEED_SUCCESS',
-      FAILURE: 'USER_FEED_FAILURE'
-    // }
+    POST: {
+      PENDING: 'USER_FEED_POST_PENDING',
+      SUCCESS: 'USER_FEED_POST_SUCCESS',
+      FAILURE: 'USER_FEED_POST_FAILURE'
+    },
+    FETCH: {
+      PENDING: 'USER_FEED_FETCH_PENDING',
+      SUCCESS: 'USER_FEED_FETCH_SUCCESS',
+      // FAILURE: 'USER_FEED_FETCH_FAILURE'
+    }
   }
 };

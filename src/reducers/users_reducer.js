@@ -2,18 +2,19 @@ import { USER } from '../constants/actions';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
-  isPending: false,
+  postPending: false,
+  fetchPending: false,
   error: null
 };
 
-function userFeedPending(state) {
+function userFeedPostPending(state) {
   return {
     ...state,
-    isPending: true
+    postPending: true
   };
 }
 
-function userFeedSuccess(state, action) {
+function userFeedPostSuccess(state, action) {
   const { userId, tweetId } = action.payload;
   const userFeed = state[userId]
     ? { ...state[userId], feed: [...state[userId].feed, tweetId] }
@@ -22,27 +23,58 @@ function userFeedSuccess(state, action) {
   return {
     ...state,
     [userId]: userFeed,
-    isPending: false,
+    postPending: false,
     error: null
   };
 }
 
-function userFeedFailure(state, action) {
+function userFeedPostFailure(state, action) {
   return {
     ...state,
-    isPending: false,
+    postPending: false,
     error: action.payload
+  };
+}
+
+function userFeedFetchPending(state) {
+  return {
+    ...state,
+    fetchPending: true
+  };
+}
+
+function userFeedFetchSuccess(state, action) {
+  const { userId, tweetId } = action.payload;
+  let userFeed = null;
+  if (state[userId]) {
+    userFeed = {
+      ...state[userId],
+      feed: _.uniq([...state[userId].feed, tweetId])
+    };
+  } else {
+    userFeed = { ...state[userId], feed: [tweetId] };
+  }
+
+  return {
+    ...state,
+    [userId]: userFeed,
+    fetchPending: false,
+    error: null
   };
 }
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case USER.FEED.PENDING:
-      return userFeedPending(state);
-    case USER.FEED.SUCCESS:
-      return userFeedSuccess(state, action);
-    case USER.FEED.FAILURE:
-      return userFeedFailure(state, action);
+    case USER.FEED.POST.PENDING:
+      return userFeedPostPending(state);
+    case USER.FEED.POST.SUCCESS:
+      return userFeedPostSuccess(state, action);
+    case USER.FEED.POST.FAILURE:
+      return userFeedPostFailure(state, action);
+    case USER.FEED.FETCH.PENDING:
+      return userFeedFetchPending(state);
+    case USER.FEED.FETCH.SUCCESS:
+      return userFeedFetchSuccess(state, action);
     default:
       return state;
   }
