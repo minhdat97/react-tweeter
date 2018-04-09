@@ -19,23 +19,26 @@ export const doGetUserById = id =>
 export const doPostTweet = (userId, content, timestamp) => {
   const tweetRef = db.ref(`tweets`).push();
   const tweetId = tweetRef.key;
-  return { ref: tweetRef.set({ userId, content, timestamp }), id: tweetId };
+  return { ref: tweetRef.set({ userId, content, timestamp }), tweetId };
 };
 
-export const doGetUserFeedById = id => {
-  const feedRef = db
-    .ref()
-    .child('users')
-    .child(id)
-    .child('feed');
-  feedRef.on('child_added', snapshot => {
-    let tweetId = snapshot.key;
-    let tweetRef = db
-      .ref()
-      .child('tweets')
-      .child(tweetId);
-    tweetRef.on('value', tweet => {
-      console.log(tweet.val());
-    });
-  });
-};
+export const doSaveTweetToUsersFeed = (userId, tweetId) =>
+  db.ref(`users/${userId}/feed/${tweetId}`).set(true);
+
+// export const doGetUserFeedById = id => {
+//   const feedRef = db
+//     .ref()
+//     .child('users')
+//     .child(id)
+//     .child('feed');
+//   feedRef.on('child_added', snapshot => {
+//     let tweetId = snapshot.key;
+//     let tweetRef = db
+//       .ref()
+//       .child('tweets')
+//       .child(tweetId);
+//     tweetRef.on('value', tweet => {
+//       console.log(tweet.val());
+//     });
+//   });
+// };

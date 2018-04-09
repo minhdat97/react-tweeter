@@ -14,3 +14,13 @@ export const TWEET = {
     FAILURE: 'TWEET_POST_FAILURE'
   }
 };
+
+export const USER = {
+  FEED: {
+    // POST: {
+      PENDING: 'USER_FEED_PENDING',
+      SUCCESS: 'USER_FEED_SUCCESS',
+      FAILURE: 'USER_FEED_FAILURE'
+    // }
+  }
+};

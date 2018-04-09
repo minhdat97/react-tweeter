@@ -13,7 +13,6 @@ function tweetPostPending(state) {
 }
 
 function tweetPostSuccess(state, action) {
-  console.log(action.payload);
   return {
     ...state,
     ...action.payload,
