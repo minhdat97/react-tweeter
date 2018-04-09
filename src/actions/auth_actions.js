@@ -34,7 +34,6 @@ export function getLoggedInUser(id) {
     db
       .doGetUserById(id)
       .then(snapshot => {
-        console.log(snapshot);
         dispatch({ type: AUTH.LOGIN.SUCCESS, payload: snapshot.val() });
         localStorage.setItem('authToken', id);
       })

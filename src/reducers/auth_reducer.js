@@ -8,14 +8,14 @@ const INITIAL_STATE = {
     pictureUrl: null
   },
   authenticated: false,
-  authPending: false,
+  isPending: false,
   error: null
 };
 
 function authLoginPending(state) {
   return {
     ...state,
-    authPending: true
+    isPending: true
   };
 }
 
@@ -24,7 +24,7 @@ function authLoginSuccess(state, action) {
     ...state,
     user: { ...state.user, ...action.payload },
     authenticated: true,
-    authPending: false,
+    isPending: false,
     error: null
   };
 }
@@ -32,7 +32,7 @@ function authLoginSuccess(state, action) {
 function authLoginFailure(state, action) {
   return {
     ...state,
-    authPending: false,
+    isPending: false,
     error: action.payload
   };
 }
@@ -40,7 +40,7 @@ function authLoginFailure(state, action) {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH.LOGIN.PENDING:
-      return authLoginPending(state, action);
+      return authLoginPending(state);
     case AUTH.LOGIN.SUCCESS:
       return authLoginSuccess(state, action);
     case AUTH.LOGIN.FAILURE:

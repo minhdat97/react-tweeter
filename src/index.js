@@ -9,7 +9,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 // Check for auth token in local storage before setting pending auth state
 const token = localStorage.getItem('authToken');
-if (token) store.dispatch({ type: AUTH.LOGIN.PENDING, payload: true });
+if (token) store.dispatch({ type: AUTH.LOGIN.PENDING });
 
 ReactDOM.render(
   <Provider store={store}>

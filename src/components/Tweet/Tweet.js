@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { postTweet } from '../../actions/tweet_actions';
 import autosize from 'autosize';
 import './Tweet.css';
-import { db } from '../../firebase';
+// import { db } from '../../firebase';
 
 const CHAR_LIMIT = 140;
 
@@ -42,8 +43,9 @@ class Tweet extends Component {
   };
 
   submitData = () => {
-    console.log('TEST');
-    db.doPostTweet(this.props.authUserId, this.state.tweet);
+    // console.log('TEST');
+    // db.doPostTweet(this.props.authUserId, this.state.tweet);
+    this.props.postTweet(this.props.authUserId, this.state.tweet);
   };
 
   render() {
@@ -71,4 +73,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Tweet);
+export default connect(mapStateToProps, { postTweet })(Tweet);

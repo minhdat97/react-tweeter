@@ -8,7 +8,7 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    db.doGetUserFeedById(this.props.authUserId);
+    // db.doGetUserFeedById(this.props.authUserId);
   }
 
   render() {

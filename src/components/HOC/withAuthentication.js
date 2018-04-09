@@ -20,7 +20,7 @@ const withAuthentication = Component => {
 
   const mapStateToProps = state => {
     return {
-      authPending: state.auth.authPending
+      authPending: state.auth.isPending
     };
   };
 
