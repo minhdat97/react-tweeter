@@ -17,7 +17,7 @@ function userFeedPostPending(state) {
 function userFeedPostSuccess(state, action) {
   const { userId, tweetId } = action.payload;
   const userFeed = state[userId]
-    ? { ...state[userId], feed: [...state[userId].feed, tweetId] }
+    ? { ...state[userId], feed: [tweetId, ...state[userId].feed] }
     : { feed: [tweetId] };
 
   return {
@@ -49,7 +49,7 @@ function userFeedFetchSuccess(state, action) {
   if (state[userId]) {
     userFeed = {
       ...state[userId],
-      feed: _.uniq([...state[userId].feed, tweetId])
+      feed: _.uniq([tweetId, ...state[userId].feed])
     };
   } else {
     userFeed = { ...state[userId], feed: [tweetId] };

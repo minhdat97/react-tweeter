@@ -9,7 +9,10 @@ export const doGetUserById = id =>
 export const doPostTweet = (userId, content, timestamp) => {
   const tweetRef = db.ref(`tweets`).push();
   const tweetId = tweetRef.key;
-  return { ref: tweetRef.set({ userId, content, timestamp }), tweetId };
+  return {
+    ref: tweetRef.set({ userId, content, timestamp }),
+    tweetId
+  };
 };
 
 export const doPostTweetToUsersFeed = (userId, tweetId) =>
